@@ -1,0 +1,11 @@
+[app]
+name = "Flow3r Dating"
+menu = "Badge"
+
+[entry]
+class = "Single"
+
+[metadata]
+author = "Feylinchen"
+license = "No Clue"
+url = "https://github.com/Dastano/flow3r-dating"

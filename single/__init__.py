@@ -20,7 +20,7 @@ class Configuration:
                 jsondata = f.read()
             data = json.loads(jsondata)
         except OSError:
-            data = {"selectedText":0,"mode":3,"glichMode":3,"font":1,"text1":[["Text1?",60,25,"0x1EE210","0xFFE599"],["Text2",60,25,"0x1EE210","0xFFE599"],["Text3",40,20,"0x1EE210","0xFFE599",["/flash/sys/apps/single/heart.png",-25,35,50,50]]],"text2":[["Placeholder1",40,25,"0x1EE210","0xFFE599"],["Placeholder2",40,25,"0x1EE210","0xFFE599"]],"text3":[["Placeholder3",40,25,"0x1EE210","0xFFE599"],["Placeholder4",40,25,"0x1EE210","0xFFE599"]],"text4":[["Yo-Ho-Ho",30,25,"0x349BEB","0x8FEB34"],["and a buddle of rum!",25,15,"0x349BEB","0x8FEB34"]],"mode":2,"size":30}
+            data = {"swapMode":1,"swapCD":1,"selectedText":0,"mode":3,"glichMode":3,"font":1,"text1":[["Text1?",60,25,"0x1EE210","0xFFE599"],["Text2",60,25,"0x1EE210","0xFFE599"],["Text3",40,20,"0x1EE210","0xFFE599",["/flash/sys/apps/single/heart.png",-25,35,50,50]]],"text2":[["Placeholder1",40,25,"0x1EE210","0xFFE599"],["Placeholder2",40,25,"0x1EE210","0xFFE599"]],"text3":[["Placeholder3",40,25,"0x1EE210","0xFFE599"],["Placeholder4",40,25,"0x1EE210","0xFFE599"]],"text4":[["Yo-Ho-Ho",30,25,"0x349BEB","0x8FEB34"],["and a buddle of rum!",25,15,"0x349BEB","0x8FEB34"]],"mode":2,"size":30}
             pass
         res._text = [[] for _ in range(5)]
         if "font" in data and type(data["font"]) == int:
@@ -31,6 +31,16 @@ class Configuration:
             and type(data["selectedText"]) == int
         ):
             res.selectedText = data["selectedText"]
+        if (
+            "swapMode" in data
+            and type(data["selectedText"]) == int
+        ):
+            res.swapMode = data["swapMode"]
+        if (
+            "swapCD" in data
+            and type(data["swapCD"]) == int
+        ):
+            res.swapCD = data["swapCD"]
         if (
             "text1" in data
             and type(data["text1"]) == list
@@ -66,6 +76,8 @@ class Configuration:
             "text2" : context._text[1],
             "text3" : context._text[2],
             "text4" : context._text[3],
+            "swapMode" : self.swapMode,
+            "swapCD" : self.swapCD,
             "glichMode": context.glitch,
             "mode" : context._config.mode,
             "selectedText": context._curTextIndex,
@@ -89,7 +101,7 @@ class Single(Application):
         self._led = 0.0
         self._phase = 0.0
         self._phaseMax = 1
-        self._filename = "/flash/single.json"
+        self._filename = "/flash/flow3r-dating.json"
         self._config = Configuration.load(self._filename)
         self._startTime = time.time()
         self._startTimeQR = time.time()
@@ -147,7 +159,9 @@ class Single(Application):
                     ctx.scale(scaleInt, scaleInt)
             self._endTime = time.time()
             # Wenn 4 Sekunden vorbei sind, adden wir +1 zu curRound, wenn CurRound höher ist als die Länge vom aktuell selektierten text, Fallback zu 0
-            if self._endTime - self._startTime > 3:
+            print(str(self._config.swapCD))
+            print(str(self._endTime - self._startTime))
+            if self._endTime - self._startTime >= self._config.swapCD:
                 self._curRound = self._curRound + 1
                 self._startTime = time.time()
                 if self._curRound >= len(self._text[self._curTextIndex]):
@@ -257,31 +271,41 @@ class Single(Application):
                 self._hoverstate = not self._hoverstate
                 self._startTimeQR = time.time()
         # text Swapping
-        if ct.petals[2].pressed:
-            self._endTimeQR = time.time()
-            # Damit keine doppelten clicks passieren
-            if self._endTimeQR - self._startTimeQR > 2:
-                self._curTextIndex = 0
-                self._startTimeQR = time.time()
-        if ct.petals[4].pressed:
-            self._endTimeQR = time.time()
-            # Damit keine doppelten clicks passieren
-            if self._endTimeQR - self._startTimeQR > 2:
-                self._curTextIndex = 1
-                self._startTimeQR = time.time()
-        if ct.petals[6].pressed:
-            self._endTimeQR = time.time()
-            # Damit keine doppelten clicks passieren
-            if self._endTimeQR - self._startTimeQR > 2:
-                self._curTextIndex = 2
-                self._startTimeQR = time.time()
-        if ct.petals[8].pressed:
-            self._endTimeQR = time.time()
-            # Damit keine doppelten clicks passieren
-            if self._endTimeQR - self._startTimeQR > 2:
-                self._curTextIndex = 3
-                self._startTimeQR = time.time()
-        #end text swapping
+        if self._config.swapMode == 0:         
+            if ct.petals[2].pressed:
+                self._endTimeQR = time.time()
+                # Damit keine doppelten clicks passieren
+                if self._endTimeQR - self._startTimeQR >= self._config.swapCD:
+                    self._curTextIndex = 0
+                    self._startTimeQR = time.time()
+            if ct.petals[4].pressed:
+                self._endTimeQR = time.time()
+                # Damit keine doppelten clicks passieren
+                if self._endTimeQR - self._startTimeQR >= self._config.swapCD:
+                    self._curTextIndex = 1
+                    self._startTimeQR = time.time()
+            if ct.petals[6].pressed:
+                self._endTimeQR = time.time()
+                # Damit keine doppelten clicks passieren
+                if self._endTimeQR - self._startTimeQR >= self._config.swapCD:
+                    self._curTextIndex = 2
+                    self._startTimeQR = time.time()
+            if ct.petals[8].pressed:
+                self._endTimeQR = time.time()
+                # Damit keine doppelten clicks passieren
+                if self._endTimeQR - self._startTimeQR >= self._config.swapCD:
+                    self._curTextIndex = 3
+                    self._startTimeQR = time.time()
+            #end text swapping Touch
+        elif self._config.swapMode == 1:
+            if self.input.buttons.os.left.pressed:
+                self._curTextIndex = self._curTextIndex - 1
+                if 0 > self._curTextIndex:
+                    self._curTextIndex = 3
+            elif self.input.buttons.os.right.pressed:
+                self._curTextIndex = self._curTextIndex + 1
+                if self._curTextIndex > 3:
+                    self._curTextIndex = 0
         if self.input.buttons.app.left.pressed:
             if self._phaseMax > 0.1:
                 self._phaseMax -= 0.1

@@ -14,6 +14,10 @@ Generate your own QR Code and place it in the App Folder calling your Image : qr
 
 I generated mine at: https://hovercode.com/ and scaled it down with Photoshop to 240x240
 
+## Known Bugs:
+
+- Yes, swapMode: 1 will trigger Volume Control, but its better then touch :3 and we don't play music anyway.
+
 ## Default config
 
 - Mode: 2 = Gliching (pretty much same as on Nick App - Rotating)

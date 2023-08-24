@@ -40,3 +40,5 @@ Adds an Icon to the Footer. (Only Images supported atm.)
 Default Config:
 
 `{"mode": 2, "text1": [["Text1", 60, 25, "0x1EE210", "0xFFE599"], ["Text2", 60, 25, "0x1EE210", "0xFFE599"], ["Text3", 40, 20, "0x1EE210", "0xFFE599", ["/flash/sys/apps/single/heart.png", -25, 35, 50, 50]]], "text2": [["Placeholder1", 40, 25, "0x1EE210", "0xFFE599"], ["Placeholder2", 40, 25, "0x1EE210", "0xFFE599"]], "text3": [["Placeholder3", 40, 25, "0x1EE210", "0xFFE599"], ["Placeholder4", 40, 25, "0x1EE210", "0xFFE599"]], "text4": [["Yo-Ho-Ho", 30, 25, "0x349BEB", "0x8FEB34"], ["and a buddle of rum!", 25, 15, "0x349BEB", "0x8FEB34"]], "selectedText": 0, "font": 1, "glichMode": 0}`
+
+### Props to : Mychinos for the Fancy LED Stuff, I didn't touched.

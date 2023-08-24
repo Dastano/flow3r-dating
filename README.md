@@ -16,9 +16,9 @@ I generated mine at: https://hovercode.com/ and scaled it down with Photoshop to
 
 ## Default config
 
-Mode: 2 = Gliching (pretty much same as on Nick App - Rotating)
-swapMode: 1 = Swap Text with the OS Button (left / right) \* OS Button is right shoulder button!
-swapCD: 1 = 1 sec, swap Cooldown, it is only used in swapMode: 0 (when using touch Buttons)
+- Mode: 2 = Gliching (pretty much same as on Nick App - Rotating)
+- swapMode: 1 = Swap Text with the OS Button (left / right) \* OS Button is right shoulder button!
+- swapCD: 1 = 1 sec, swap Cooldown, it is only used in swapMode: 0 (when using touch Buttons)
 
 1. "text1" = Top right (petal)
 1. "text2" = Bottom right (petal)
